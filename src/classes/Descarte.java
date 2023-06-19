@@ -14,6 +14,23 @@ public class Descarte {
 		this.listaCarta = new ArrayList<Carta>();
 	}
 	
+	public void adicionarCarta(Carta carta) {
+		this.listaCarta.add(carta);
+		if (carta instanceof CartaEspecial) {
+			carta.executaAcao;
+		}
+		
+	}
+
+	public List<Carta> getListaCarta() {
+		return listaCarta;
+	}
+
+	public void setListaCarta(List<Carta> listaCarta) {
+		this.listaCarta = listaCarta;
+	}
+	
+	
 	
 	
 	
