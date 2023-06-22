@@ -5,15 +5,15 @@ import java.util.List;
 
 public abstract class Jogador {
 	private String nome;
-	private int idade;
 	private Boolean humano;
+	protected Baralho baralho;
 	protected List<Carta> listaCarta;
 	
 	// Construtor
-	public Jogador(String nome, int idade, boolean humano) {
+	public Jogador(String nome, Baralho baralho, boolean humano) {
 		this.nome = nome;
-		this.idade = idade;
 		this.humano = humano;
+		this.baralho = baralho;
 		this.listaCarta = new ArrayList<Carta>();
 	}
 	
@@ -26,12 +26,12 @@ public abstract class Jogador {
 		this.nome = nome;
 	}
 	
-	public int getIdade() {
-		return idade;
+	public Baralho getBaralho() {
+		return baralho;
 	}
 	
-	public void setIdade(int idade) { // atualiza a variavel estatica que atualiza o id
-		this.idade = idade;
+	public void setBaralho(Baralho baralho) { // atualiza a variavel estatica que atualiza o id
+		this.baralho = baralho;
 	}
 	
 	public Boolean getHumano() {
@@ -50,11 +50,42 @@ public abstract class Jogador {
 		this.listaCarta = listaCarta;
 	}
 	
+	// printar a lista de cartas
+	public void printListaCartas() {
+		for(int i = 0; i < listaCarta.size()-1; i++) {
+			for(Carta carta : listaCarta) {
+				System.out.println("[" + i + "] " + carta.toString());
+			}
+		}
+	}
+	
+	// Comprar cartas conforme a quantidade solicitada
+	public void comprarCarta(int qtdCartas, Baralho baralho){
+		for(int i = 0; i < qtdCartas - 1; i++) { 
+			this.getListaCarta().add(baralho.getListaCarta().get(baralho.getListaCarta().size()-1)); // pega a ultima carta da lista do baralho e adiciona aqui
+			baralho.removerCarta(); // ja retira essa carta do baralho
+		}
+	}
+	
+	
+	// funcao de declaracao de uno do jogador (a verificacao sera feita pela Mesa)
+	 public boolean falarUno() {
+		 System.out.println("UNO!"); // jogador fala uno se acha que tem apenas uma carta
+		 
+		 if(listaCarta.size() == 1) {
+			 return true;  // de fato tem 1 carta logo Uno e' valido
+		 }
+		 else {
+			 return false; // falou uno errado e a mesa vai lidar com a carta a mais
+		 }
+	 }
+	 
+	 // comprarCarta
+	
 	// Metodo toString
 	public String toString () {
 		return "Jogador:" +
 				"\n Nome: " + this.nome +
-				"\n Idade: " + this.idade +
 				"\n Tipo de jogador humano: " + this.humano  
 				//"\n Lista de cartas: " 
 				;

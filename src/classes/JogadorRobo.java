@@ -1,30 +1,34 @@
 package classes;
 
+
 public class JogadorRobo extends Jogador {
 
-	public JogadorRobo(String nome, int idade, boolean humano) {
-		super(nome, idade, humano);
-	}
-	
-	public void realizaJogada() {
-		// se a ultima carta do descarte nao for um +2/+4/escolheCor/bloqueio/retorno
+		public JogadorRobo(String nome, Baralho baralho, boolean humano) {
+			super(nome, baralho, humano);
+		}
 		
-			// ve se tem alguma carta da mesma cor (se tiver: joga) (aqui o 'block', 'retorno' e '+2' sao incluidos)
+		public Carta realizaJogada(String cor, int valor) {
+			/* Ordem das jogadas:
+			 * 	- mesma cor (numero, +2, block, retorno)
+			 * 	- mesmo numero
+			 * 	- carta de acao (escolhe cor, +4)
+			 */
 			
-			// ve se tem uma carta do mesmo numero (se tiver joga) 
-			
-			// joga um 'escolheCor' ou um '+4'
-		
-		// se a ultima carta foi um 'escolheCor/+4' ve a cor selecionada e verifica lista a partir dai
-		
-		// se nao tiver nenhuma carta - compra carta do baralho direto
-	}
-	
-	
-	// nao sei fazer ele rodar isso em toda as rodadas
-	public void unoAutomatico() {
-		if(listaCarta.size() == 1) {
-			System.out.println("UNO!");
+			Carta cartaDescarte = null; ;
+			for(Carta carta : listaCarta) { // percorre a lista de cartas que ele tem 
+				if(carta.getCor().equals(cor)) {	// ve se tem carta compativel por cor (block, ret e +2 sao inclusos aqui)
+					cartaDescarte = carta;
+					
+				} else if(carta.getValor() == valor) { // ve se e' compativel o valor
+					cartaDescarte = carta;
+						
+				} else if((carta.getValor() == 13) || (carta.getValor() == 14)) { // +4 e escolhe cor 
+					cartaDescarte = carta;
+					
+				} else {
+					comprarCarta(1, baralho);
+				} 	
+					
+			} return cartaDescarte;
 		}
 	}
-}
