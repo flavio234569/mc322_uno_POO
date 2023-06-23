@@ -69,6 +69,29 @@ public class Mesa {
 		} */ 
 		return corJogar;
 	}
+
+	//A partir da ultima carta jogada, analisa qual será o próximo jogador
+    //Retorna int, sendo "0" o jogador Robo e "1" o jogador Humano
+    public int vezJogador(Descarte descarte, int ultimoJogador){
+    Carta ultimaCarta = descarte.getListaCarta().get(descarte.getListaCarta().size()-1);
+    int jogRob = 0;
+    int jogHum = 1;
+
+    if (!ultimaCarta.getAcao() || ultimaCarta.getValor() == CartaValoresEnum.CORINGA.valor){ //Se nao eh uma carta de acao, entao prox jogador eh o outro
+        if (ultimoJogador == jogRob){
+            return jogHum;
+        }
+        else {
+            return jogRob;
+        }
+    } else { //Eh o mesmo jogador
+        if (ultimoJogador == jogRob){
+            return jogRob;
+        }else {
+            return jogHum;
+        }
+    }
+	}
 	
 	
 	public void proximaJogada(Descarte descarte, int proxJogador) {
