@@ -40,10 +40,6 @@ public class Baralho {
 
 
 
-
-
-
-
 	public void adicionarCarta(Carta carta) {
 		this.listaCarta.add(carta);
 		

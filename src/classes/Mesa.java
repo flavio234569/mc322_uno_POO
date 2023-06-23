@@ -10,10 +10,11 @@ public class Mesa {
 	private JogadorRobo jogadorRobo;
 	//private Menu menu;
 	private int ultimoJogador;
+	private boolean vencedor;
 	
 	
 	public Mesa(Baralho baralho, Descarte descarte, JogadorHumano jogadorHumano, JogadorRobo jogadorRobo) {
-		super();
+		
 		this.baralho = baralho;
 		//this.listaJogador = new ArrayList<Jogador>();;
 		this.descarte = descarte;
@@ -21,6 +22,8 @@ public class Mesa {
 		this.jogadorRobo = jogadorRobo;
 		//this.menu = menu;
 		this.ultimoJogador = 0; // primeiro jogador e' o robo (0)
+		
+		//this.vencedor = false;
 	}
 	
 	public int getUltimoJogador() {
@@ -30,40 +33,39 @@ public class Mesa {
 	public void setUltimoJogador(int numJogador) {
 		this.ultimoJogador = numJogador;
 	}
-	
-	public void jogo() {
-		Boolean vencedor = false;
-		while( vencedor == false) {
-			System.out.println("\nUltima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
-			proximaJogada(descarte);
-			// verUno;
-			//vencedor = verVencedor();
-		}
+	 public boolean getVencedor() {
+		  return vencedor;
+	}
+
+	 public void setVencedor(boolean vencedor) {
+		  this.vencedor = vencedor;
 	}
 	
+	public void jogo() {
+		
+		while(vencedor == false) {
+			System.out.println("\nUltima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
+			//System.out.println("Cartas do Robo: " + jogadorRobo.getListaCarta() + "\n");
+			proximaJogada(descarte);
+			// verUno;
+			verificaVencedor();
+		}
+	}
+	public void verificaVencedor(){
+	    if(jogadorRobo.getListaCarta().size() == 0){
+	      setVencedor(true);
+	      System.out.println("Fim de partida! \n " + jogadorRobo.getNome() + " venceu!");
+	    }
+	    else if(jogadorHumano.getListaCarta().size() == 0){
+	    	setVencedor(true);
+	      System.out.println("Fim de partida! \n " + jogadorHumano.getNome() + " venceu!");
+	    }
+	    else{
+	    	System.out.println("AQUI");
+	    	setVencedor(false);
+	    }
+	  }
 	
-	
-	/* Menu (so pro humano)
-	 *   1 - Comprar carta
-	 *   2 - Jogar carta
-	 *   3 - Falar uno
-	 */
-	
-	// verificar do jogador:
-		// carta jogada valida
-			// se nao for: comprarCarta()
-		// uno valido
-			// se for falso: comprarCarta()
-			// verifica se deixou passar o uno (nao falou = +1)
-	
-	
-	// verifica vencedor:
-		// se nao tem carta = venceu
-	
-	// loop: entre jogadas: 
-		// verUno 
-		// verVencedor
-		// 
 	
 	
 	// vai determinar qual cor e valor pode jogar na proxima jogada
@@ -81,9 +83,11 @@ public class Mesa {
 		else {
 			if(ultimoJogador == 0) {
 				corJogar = jogadorRobo.getCorCoringa(); // se for Robo pega a cor definida nele
+				descarte.getListaCarta().get(descarte.getListaCarta().size()-1).setCor(corJogar);
 			}
 			if(ultimoJogador == 1) {
 				corJogar = jogadorHumano.escolheCor(); // se for Humano pede pra ele inserir a cor
+				descarte.getListaCarta().get(descarte.getListaCarta().size()-1).setCor(corJogar);
 				}
 			
 			
@@ -143,14 +147,15 @@ public class Mesa {
 		
 		if(proxJogador == 0) { // vez do robo
 			descarteJog = jogadorRobo.realizaJogada(corJogar, valorJogar);
+			if(descarteJog == null) {
+				descarteJog = descarte.getListaCarta().get(descarte.getListaCarta().size()-1); // se ele compra carta permanece no monte a ultima carta descartada
+			}
 			descarte.getListaCarta().add(descarteJog);
 			System.out.println("Carta jogada pelo " + jogadorRobo.getNome() + ": " + ((CartaTipos)descarteJog).toString());
 			
 		} else if(proxJogador == 1) { // vez do humano
 			String opcao;
 
-			//try (Scanner usuario = new Scanner(System.in)) {
-				//while(true) {
 			Scanner usuario = new Scanner(System.in);
 			// Menu para jogada do Humano
 				System.out.println("--------------------------");
@@ -168,7 +173,7 @@ public class Mesa {
 			// Selecao do usuario
 				System.out.println("Opção selecionada: ");
 				opcao = usuario.nextLine();
-				usuario.nextLine();// limpa o scanner
+				//usuario.nextLine();// limpa o scanner
 				
 				if(opcao.equals("A")) {   		// Comprar carta
 						jogadorHumano.comprarCarta(1, baralho);
@@ -178,7 +183,7 @@ public class Mesa {
 						jogadorHumano.printListaCartas();
 						System.out.println("--------------------------");
 						descarteJog = descarte.getListaCarta().get(descarte.getListaCarta().size()-1); // se ele compra carta permanece no monte a ultima carta descartada
-						//break;
+						//System.out.println("VAI CACETE");
 					
 				} else if(opcao.equals("B"))  { // Jogar carta
 						System.out.println("Qual carta você deseja jogar? Digite o número entre \'[ ]\' ");

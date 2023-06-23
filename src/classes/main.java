@@ -66,6 +66,7 @@ public class main {
 		JogadorHumano jogadorHumano = new JogadorHumano("Nati", baralho, true);
 		JogadorRobo jogadorRobo = new JogadorRobo("Robo", baralho, false);
 		
+		baralho.embaralhar();
 		// Distribuicao das cartas iniciais do jogo (aqui serao 5)
 		jogadorRobo.comprarCarta(5, baralho);
 		jogadorHumano.comprarCarta(5, baralho);
