@@ -59,7 +59,9 @@ public class main {
 		baralho.adicionarCarta(c19);
 		baralho.adicionarCarta(c21);
 		baralho.adicionarCarta(c22);
-
+		
+		baralho.embaralhar();
+		
 		Descarte descarte = new Descarte();
 		descarte.adicionarCarta(c20); // primeira carta do monte do descarte (inicio de jogo sera sempre com Vr 3)
 		

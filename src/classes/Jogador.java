@@ -3,6 +3,8 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public abstract class Jogador {
 	private String nome;
 	private Boolean humano;
@@ -51,12 +53,15 @@ public abstract class Jogador {
 	}
 	
 	// printar a lista de cartas
-	public void printListaCartas() {
+	public String printListaCartas() {
+		String ListaDeCartas = "";
 		for(int i = 0; i < listaCarta.size(); i++) {
 			Carta carta = listaCarta.get(i);
 			System.out.println("[" + i + "] " + ((CartaTipos) carta).toString());
+			ListaDeCartas = ListaDeCartas + "[" + i + "] " + ((CartaTipos) carta).toString() + "\n";
 			
 		}
+		return ListaDeCartas;
 	}
 	
 	// Comprar cartas conforme a quantidade solicitada
@@ -70,6 +75,7 @@ public abstract class Jogador {
 	
 	// funcao de declaracao de uno do jogador (a verificacao sera feita pela Mesa)
 	 public boolean falarUno() {
+		 JOptionPane.showInputDialog("UNO");
 		 System.out.println("UNO!"); // jogador fala uno se acha que tem apenas uma carta
 		 
 		 if(listaCarta.size() == 1) {
