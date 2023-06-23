@@ -6,4 +6,5 @@
  *
  */
 module project_uno {
+	requires java.desktop;
 }
