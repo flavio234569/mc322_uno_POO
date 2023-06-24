@@ -3,11 +3,6 @@ package classes;
 public class main {
 
 	public static void main(String[] args) {
-		/* TESTE PRIMITIVO SO PRA VER SE TAVA RODANDO!
-		 * 
-		 */
-		
-		// atribuicao das cartas para o baralho (nao tem todas as cartas aqui)/ pode mudar para um jeito de declarar mais eficiente qualquer coisa
 		
 		/*	Am - amarelo
 		 * 	Az - Azul
@@ -34,8 +29,7 @@ public class main {
 		CartaTipos c18 = new CartaTipos("Vr", false, 1);
 		CartaTipos c19 = new CartaTipos("Vr", false, 2);
 		CartaTipos c20 = new CartaTipos("Vr", false, 3);
-		CartaTipos c21 = new CartaTipos("Pr", true, 13);
-		CartaTipos c22 = new CartaTipos("Pr", true, 14);
+		
 		
 		Baralho baralho = new Baralho("10000"); // mudar ID (coloquei esse so pq nao sabia sua funcao)
 		baralho.adicionarCarta(c1);
@@ -57,16 +51,16 @@ public class main {
 		baralho.adicionarCarta(c17);
 		baralho.adicionarCarta(c18);
 		baralho.adicionarCarta(c19);
-		baralho.adicionarCarta(c21);
-		baralho.adicionarCarta(c22);
+		
 
 		Descarte descarte = new Descarte();
-		descarte.adicionarCarta(c20); // primeira carta do monte do descarte (inicio de jogo sera sempre com Vr 3)
+		descarte.adicionarCarta(c1); // primeira carta do monte do descarte (inicio de jogo sera sempre com Vr 3)
 		
 		JogadorHumano jogadorHumano = new JogadorHumano("Nati", baralho, true);
 		JogadorRobo jogadorRobo = new JogadorRobo("Robo", baralho, false);
 		
 		baralho.embaralhar();
+		
 		// Distribuicao das cartas iniciais do jogo (aqui serao 5)
 		jogadorRobo.comprarCarta(5, baralho);
 		jogadorHumano.comprarCarta(5, baralho);

@@ -3,16 +3,11 @@ package classes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class Baralho {
 	private String Id;
 	private List<Carta> listaCarta;
-	//static Random gerador = new Random();
-	/**
-	 * @param id
-	 * @param listaCarta
-	 */
+	
 	public Baralho(String id) {
 		super();
 		Id = id;

@@ -1,6 +1,5 @@
 package classes;
 
-import java.util.Scanner;
 
 public class JogadorHumano extends Jogador {
 	
@@ -15,19 +14,5 @@ public class JogadorHumano extends Jogador {
 		this.listaCarta.remove(cartaDescarte);			  // retira a carta da lista do jogador
 		return cartaDescarte;
 	}
-	
-	public String escolheCor() {
-		Scanner usuario = new Scanner(System.in);
-		String corJogar;
-		System.out.println("Qual cor você deseja jogar? \n" +
-							"[Am] Amarelo \n" +
-							"[Az] Azul \n" +
-							"[Vd] Verde \n" + 
-							"[Vm] Vermelho \n");
-		corJogar = usuario.nextLine();
-		return corJogar;
-	}
-
-	
 	
 }
