@@ -1,242 +1,198 @@
 package classes;
 
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
 
 public class Mesa {
 	private Baralho baralho;
-	//private List<Jogador> listaJogador;
 	private Descarte descarte;
 	private JogadorHumano jogadorHumano;
 	private JogadorRobo jogadorRobo;
-	//private Menu menu;
 	private int ultimoJogador;
-	private String opcao;
-	
-	
+	private boolean vencedor;
+	private boolean repetir_jogada;
+
 	public Mesa(Baralho baralho, Descarte descarte, JogadorHumano jogadorHumano, JogadorRobo jogadorRobo) {
-		super();
+
 		this.baralho = baralho;
-		//this.listaJogador = new ArrayList<Jogador>();;
 		this.descarte = descarte;
 		this.jogadorHumano = jogadorHumano;
 		this.jogadorRobo = jogadorRobo;
-		//this.menu = menu;
 		this.ultimoJogador = 0; // primeiro jogador e' o robo (0)
-		this.opcao = "";
+		this.repetir_jogada = false;
+
 	}
-	
-	public Descarte getDescarte() {
-		return descarte;
-	}
-	
+
 	public int getUltimoJogador() {
 		return ultimoJogador;
 	}
-	
+
 	public void setUltimoJogador(int numJogador) {
 		this.ultimoJogador = numJogador;
 	}
-	
-	public String getOpcao() {
-		return opcao;
+
+	public boolean getVencedor() {
+		return vencedor;
 	}
-	
-	public void setOpcao(String opcao) {
-		this.opcao = opcao;
+
+	public void setVencedor(boolean vencedor) {
+		this.vencedor = vencedor;
 	}
-	
+
 	public void jogo() {
-		Boolean vencedor = false;
-		while( vencedor == false) {
-			JOptionPane.showInputDialog("\nUltima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
-			System.out.println("\nUltima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
-			proximaJogada(descarte);
-			// verUno;
-			//vencedor = verVencedor();
-		}
-	}
-	
-	public void jogoGui() {
-		Boolean vencedor = false;
-		//while( vencedor == false) {
-		System.out.println("\nUltima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
-		proximaJogada(descarte);
-			// verUno;
-			//vencedor = verVencedor();
-		//}
-	}
-	
-	
-	/* Menu (so pro humano)
-	 *   1 - Comprar carta
-	 *   2 - Jogar carta
-	 *   3 - Falar uno
-	 */
-	
-	// verificar do jogador:
-		// carta jogada valida
-			// se nao for: comprarCarta()
-		// uno valido
-			// se for falso: comprarCarta()
-			// verifica se deixou passar o uno (nao falou = +1)
-	
-	
-	// verifica vencedor:
-		// se nao tem carta = venceu
-	
-	// loop: entre jogadas: 
-		// verUno 
-		// verVencedor
-		// 
-	
-	
-	// vai determinar qual cor e valor pode jogar na proxima jogada
-	public String defineCor(Descarte descarte) {
-		Carta ultimaDesc = descarte.getListaCarta().get(descarte.getListaCarta().size()-1);
-		String corDesc = ultimaDesc.getCor();
-		int valorDesc = ultimaDesc.getValor();
-		String corJogar = null; // MUDAR PRO +4/CORINGA
-		
-		// se for carta de 0-12: corDesc = ultimaDesc, se for 13 ou 14 = cor escolhida
-		if(valorDesc < 13) { // se nao for carta 'preta' (+4/coringa) a cor sera a mesma da ultima carta jogada
-			corJogar = corDesc;
-			
-		}
-		else {
-			if(ultimoJogador == 0) {
-				corJogar = jogadorRobo.getCorCoringa(); // se for Robo pega a cor definida nele
+
+		while (vencedor == false) {
+			// JOptionPane.showInputDialog("\nUltima carta do descarte: " +
+			// descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
+			if (baralho.getListaCarta().size() == 0) {
+				baralho.monteVazio(descarte);
 			}
-			if(ultimoJogador == 1) {
-				corJogar = jogadorHumano.escolheCor(); // se for Humano pede pra ele inserir a cor
-				}
-			
-			
-		}  
-		return corJogar;
-	}
-
-	//A partir da ultima carta jogada, analisa qual será o próximo jogador
-    //Retorna int, sendo "0" o jogador Robo e "1" o jogador Humano
-    public int vezJogador(Descarte descarte, int ultimoJogador){
-    Carta ultimaCarta = descarte.getListaCarta().get(descarte.getListaCarta().size()-1);
-    int jogRob = 0;
-    int jogHum = 1;
-
-    if (!ultimaCarta.getAcao() || ultimaCarta.getValor() == CartaValoresEnum.CORINGA.valor){ //Se nao eh uma carta de acao, entao prox jogador eh o outro
-        if (ultimoJogador == jogRob){
-            return jogHum;
-        }
-        else {
-            return jogRob;
-        }
-    } else { //Eh o mesmo jogador
-        if (ultimoJogador == jogRob){
-            return jogRob;
-        }else {
-            return jogHum;
-        }
-    }
-	}
-	
-	/*
-	public void proximaJogada(Descarte descarte) {
-		int proxJogador = vezJogador(descarte, ultimoJogador);
-		int valorJogar = descarte.getListaCarta().get(descarte.getListaCarta().size()-1).getValor();
-		String corJogar = defineCor(descarte);
-		Carta descarteAtual;
-		
-		if(proxJogador == 0) { // vez do robo
-			descarteAtual = jogadorRobo.realizaJogada(corJogar, valorJogar);
-			
-		} else if(proxJogador == 1) { // vez do humano
-			menu.menuExecutar(jogadorHumano, baralho);
+			proximaJogada(descarte);
+			verificaFim();
+			jogadorHumano.setFim(-1);
+			verificaVencedor();
 		}
-		
-		descarte.getListaCarta().add(descarteAtual);
-	
-		this.ultimoJogador = proxJogador;
-	
-	} */
-	
+	}
+
+	public void verificaVencedor() {
+		if (jogadorRobo.getListaCarta().size() == 0) {
+			setVencedor(true);
+			System.out.println("Fim de partida! \n " + jogadorRobo.getNome() + " venceu!");
+			JOptionPane.showMessageDialog(null, "Fim de partida! \n " + jogadorRobo.getNome() + " venceu!");
+		} else if (jogadorHumano.getListaCarta().size() == 0) {
+			setVencedor(true);
+			System.out.println("Fim de partida! \n " + jogadorHumano.getNome() + " venceu!");
+			JOptionPane.showMessageDialog(null, "Fim de partida! \n " + jogadorHumano.getNome() + " venceu!");
+
+		} else {
+			setVencedor(false);
+		}
+	}
+
+	public void verificaFim() {
+		int fimHumano = jogadorHumano.getFim();
+
+		// se jogador fala uno invalido = compra carta
+		if (jogadorRobo.getListaCarta().size() == 1) {
+			jogadorRobo.falarFim(); // aqui faz o 'FIM' automatico do robo (ele nunca erra)
+			JOptionPane.showMessageDialog(null, "Robo falou FIM");
+		} else if (fimHumano == 0 && (jogadorHumano.getListaCarta().size() != 1)) {
+			jogadorHumano.comprarCarta(1, baralho);
+			JOptionPane.showMessageDialog(null, "Humano falou FIM errado: Penalidade +1 carta");
+		}
+	}
+
+	// A partir da ultima carta jogada, analisa qual será o próximo jogador
+	// Retorna int, sendo "0" o jogador Robo e "1" o jogador Humano
+	public int vezJogador(Descarte descarte, int ultimoJogador) {
+		Carta ultimaCarta = descarte.getListaCarta().get(descarte.getListaCarta().size() - 1);
+		int jogRob = 0;
+		int jogHum = 1;
+
+		if (!ultimaCarta.getAcao()) { // Se nao eh uma carta de acao, entao prox jogador eh o outro
+			if (ultimoJogador == jogRob) {
+				return jogHum;
+			} else {
+				return jogRob;
+			}
+			// Eh o mesmo jogador
+		} else if (ultimaCarta.getValor() == CartaValoresEnum.MAIS2.valor) {
+			if (ultimoJogador == jogRob) {
+				jogadorHumano.comprarCarta(2, baralho);
+				return jogRob;
+			} else {
+				jogadorRobo.comprarCarta(2, baralho);
+				return jogHum;
+			}
+		} else {
+			if (ultimoJogador == jogRob) {
+				return jogRob;
+			} else {
+				return jogHum;
+			}
+		}
+	}
 
 	public void proximaJogada(Descarte descarte) {
-		int proxJogador = vezJogador(descarte, ultimoJogador);
-		int valorJogar = descarte.getListaCarta().get(descarte.getListaCarta().size()-1).getValor();
-		String corJogar = defineCor(descarte);
+		int proxJogador = this.repetir_jogada ? ultimoJogador : vezJogador(descarte, ultimoJogador);
+		int valorJogar = descarte.getListaCarta().get(descarte.getListaCarta().size() - 1).getValor();
+		String corJogar = descarte.getListaCarta().get(descarte.getListaCarta().size() - 1).getCor();
 		Carta descarteJog = null;
-		//String opcao;
-		
-		if(proxJogador == 0) { // vez do robo
+
+		if (proxJogador == 0) { // vez do robo
 			descarteJog = jogadorRobo.realizaJogada(corJogar, valorJogar);
+			if (descarteJog == null) {
+				descarteJog = descarte.getListaCarta().get(descarte.getListaCarta().size() - 1); // se ele compra carta
+																									// permanece no
+																									// monte a ultima
+																									// carta descartada
+			}
 			descarte.getListaCarta().add(descarteJog);
-			System.out.println("Carta jogada pelo " + jogadorRobo.getNome() + ": " + ((CartaTipos)descarteJog).toString());
-			
-		} else if(proxJogador == 1) { // vez do humano
-			
 
-			//try (Scanner usuario = new Scanner(System.in)) {
-				//while(true) {
-			Scanner usuario = new Scanner(System.in);
+		} else if (proxJogador == 1) { // vez do humano
+			String opcao = "D";
+			String strdescarte = "";
+
 			// Menu para jogada do Humano
-				System.out.println("--------------------------");
-				System.out.println("Suas cartas atuais: \n");
+			while (!opcao.equals("A") && !opcao.equals("B") && !opcao.equals("C")) {
 				String strmsglistacartaa = jogadorHumano.printListaCartas();
-				System.out.println("--------------------------");
-				System.out.println("O que você deseja fazer?:");
-				System.out.println("[A] Comprar carta");
-				System.out.println("[B] Jogar carta");
-									// [B.1] +4/Coringa (Qual cor vc quer?)
-				System.out.println("[C] Falar uno");
-				System.out.println("--------------------------");
-				System.out.println("\n");
-
-			// Selecao do usuario
+				// Selecao do usuario
 				System.out.println("Opção selecionada: ");
-				//opcao = usuario.nextLine();
-				opcao = JOptionPane.showInputDialog("Suas cartas atuais: \n" + strmsglistacartaa + "\n O que deseja fazer? \n[A] Comprar carta\n[B] Jogar carta\n[C] Falar uno");
-				
-				//usuario.nextLine();// limpa o scanner
-				
-				if(opcao.equals("A")) {   		// Comprar carta
-						jogadorHumano.comprarCarta(1, baralho);
-						System.out.println("Carta comprada: " + jogadorHumano.getListaCarta().get(jogadorHumano.getListaCarta().size()-1));
-						System.out.println("--------------------------");
-						System.out.println("Suas cartas atuais: \n");
-						String strmsglistacartas = jogadorHumano.printListaCartas();
-						System.out.println("--------------------------");
-						String strmsg = "Carta comprada: \n" + jogadorHumano.getListaCarta().get(jogadorHumano.getListaCarta().size()-1);
-						JOptionPane.showInputDialog(strmsg + "\nSuas cartas atuais: \n" + strmsglistacartas);
-						
-						descarteJog = descarte.getListaCarta().get(descarte.getListaCarta().size()-1); // se ele compra carta permanece no monte a ultima carta descartada
-						//break;
-					
-				} else if(opcao.equals("B"))  { // Jogar carta
-						System.out.println("Qual carta você deseja jogar? Digite o número entre \'[ ]\' ");
-						String strmsglistacartas = jogadorHumano.printListaCartas();
-						int indexCarta = Integer.valueOf(JOptionPane.showInputDialog("Qual carta você deseja jogar? Digite o número entre \'[ ]\' \n" + strmsglistacartas));
-						//int indexCarta = usuario.nextInt();
-						descarteJog = jogadorHumano.descartarCarta(indexCarta);
-						descarte.getListaCarta().add(descarteJog);
-						//break;
-						
-				} else if(opcao.equals("C")) {   // Uno
-						jogadorHumano.falarUno();
-						//break;
+				strdescarte = ("\nUltima carta do descarte: "
+						+ descarte.getListaCarta().get(descarte.getListaCarta().size() - 1) + "\n");
+
+				opcao = JOptionPane.showInputDialog(strdescarte + "Suas cartas atuais: \n" + strmsglistacartaa
+						+ "\n O que deseja fazer? \n[A] Comprar carta\n[B] Jogar carta\n[C] Falar fim");
+			}
+			if (opcao.equals("A")) { // Comprar carta
+				repetir_jogada = false;
+				jogadorHumano.comprarCarta(1, baralho);
+				String strmsglistacartas = jogadorHumano.printListaCartas();
+				String strmsg = "Carta comprada: \n"
+						+ jogadorHumano.getListaCarta().get(jogadorHumano.getListaCarta().size() - 1);
+				JOptionPane.showMessageDialog(null, strmsg + "\nSuas cartas atuais: \n" + strmsglistacartas);
+				descarteJog = descarte.getListaCarta().get(descarte.getListaCarta().size() - 1); // se ele compra carta
+																									// permanece no
+																									// monte a ultima
+																									// carta descartada
+
+			} else if (opcao.equals("B")) { // Jogar carta
+				String strmsglistacartas = jogadorHumano.printListaCartas();
+				int indexCarta;
+				do {
+					indexCarta = Integer.valueOf(JOptionPane.showInputDialog(strdescarte
+							+ "Qual carta você deseja jogar? Digite o número entre \'[ ]\' \n" + strmsglistacartas));
+				} while (indexCarta < 0 || indexCarta >= jogadorHumano.getListaCarta().size());
+
+				descarteJog = jogadorHumano.listaCarta.get(indexCarta);
+				if (descarteJog.getCor().equals(corJogar) || descarteJog.getValor() == valorJogar) {
+					repetir_jogada = false;
+					jogadorHumano.descartarCarta(indexCarta);
+					descarte.getListaCarta().add(descarteJog);
+				} else {
+					repetir_jogada = true;
+					JOptionPane.showMessageDialog(null, "Carta inválida");
 				}
+
+			} else if (opcao.equals("C")) { // 'Fim'
+				repetir_jogada = false;
+				jogadorHumano.falarFim();
+				JOptionPane.showMessageDialog(null, "Humano falou FIM!");
+
+			}
+
 		}
-		
-		
-	
+
 		this.ultimoJogador = proxJogador;
-		System.out.println("Jogador que fez a jogada:");
-		if(ultimoJogador == 0) {System.out.println(" Robo\n");}
-		else if(ultimoJogador == 1) {System.out.println(" Humano\n");}
+		if (!repetir_jogada) {
+			String jogJogada;
+			if (ultimoJogador == 0) {
+				jogJogada = "Robo";
+			} else {
+				jogJogada = "Humano";
+			}
+			JOptionPane.showMessageDialog(null, "Jogador que fez a jogada: " + jogJogada + "\n"
+					+ "Ultima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size() - 1));
+		}
 	}
-	
-	
-	
 
-
-	}
+}

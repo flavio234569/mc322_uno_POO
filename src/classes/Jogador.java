@@ -3,13 +3,12 @@ package classes;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 public abstract class Jogador {
 	private String nome;
 	private Boolean humano;
 	protected Baralho baralho;
 	protected List<Carta> listaCarta;
+	private int fim;
 	
 	// Construtor
 	public Jogador(String nome, Baralho baralho, boolean humano) {
@@ -17,6 +16,7 @@ public abstract class Jogador {
 		this.humano = humano;
 		this.baralho = baralho;
 		this.listaCarta = new ArrayList<Carta>();
+		this.fim = -1;
 	}
 	
 	// Gets e Sets
@@ -43,6 +43,15 @@ public abstract class Jogador {
 	public void setHumano(Boolean humano) {
 		this.humano = humano;
 	}
+	
+	public int getFim() {
+		return fim;
+	}
+	
+	public void setFim(int uno) {
+		this.fim = uno;
+	}
+	
 	
 	public List<Carta> getListaCarta(){
 		return listaCarta;
@@ -74,15 +83,14 @@ public abstract class Jogador {
 	
 	
 	// funcao de declaracao de uno do jogador (a verificacao sera feita pela Mesa)
-	 public boolean falarUno() {
-		 JOptionPane.showInputDialog("UNO");
-		 System.out.println("UNO!"); // jogador fala uno se acha que tem apenas uma carta
+	 public void falarFim() {
+		 System.out.println("FIM!"); // jogador fala uno se acha que tem apenas uma carta
 		 
 		 if(listaCarta.size() == 1) {
-			 return true;  // de fato tem 1 carta logo Uno e' valido
+			this.setFim(1);  // de fato tem 1 carta logo Uno e' valido
 		 }
 		 else {
-			 return false; // falou uno errado e a mesa vai lidar com a carta a mais
+			 this.setFim(0); // falou uno errado e a mesa vai lidar com a carta a mais
 		 }
 	 }
 	 

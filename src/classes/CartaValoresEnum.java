@@ -2,10 +2,7 @@ package classes;
 
 public enum CartaValoresEnum {
     BLOQUEIO(10),
-    RETORNO(11),
-    MAIS2(12),
-    MAIS4(13),
-    CORINGA(14);
+    MAIS2(11),;
 
     public final int valor;
 
