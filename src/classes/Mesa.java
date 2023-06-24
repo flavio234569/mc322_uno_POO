@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class Mesa {
 	private Baralho baralho;
@@ -39,7 +39,7 @@ public class Mesa {
 	public void jogo() {
 		
 		while(vencedor == false) {
-			System.out.println("Ultima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1)+"\n");
+			//JOptionPane.showInputDialog("\nUltima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
 			if(baralho.getListaCarta().size() == 0) {
 				baralho.monteVazio(descarte);
 			}
@@ -117,35 +117,26 @@ public class Mesa {
 		} else if(proxJogador == 1) { // vez do humano
 			String opcao;
 
-			Scanner usuario = new Scanner(System.in);
 			// Menu para jogada do Humano
-				System.out.println("--------------------------");
-				System.out.println("Suas cartas atuais: ");
-				jogadorHumano.printListaCartas();
-				System.out.println("--------------------------");
-				System.out.println("O que você deseja fazer?:");
-				System.out.println("[A] Comprar carta");
-				System.out.println("[B] Jogar carta");
-				System.out.println("[C] Falar FIM");
-				System.out.println("--------------------------");
-				System.out.println("\n");
-
+			
+			String strmsglistacartaa = jogadorHumano.printListaCartas();
 			// Selecao do usuario
 				System.out.println("Opção selecionada: ");
-				opcao = usuario.nextLine();
+				String strdescarte = ("\nUltima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1) + "\n");
+				
+				opcao = JOptionPane.showInputDialog(strdescarte + "Suas cartas atuais: \n" + strmsglistacartaa + "\n O que deseja fazer? \n[A] Comprar carta\n[B] Jogar carta\n[C] Falar uno");
+				
 				
 				if(opcao.equals("A")) {   		// Comprar carta
 						jogadorHumano.comprarCarta(1, baralho);
-						System.out.println("Carta comprada: " + jogadorHumano.getListaCarta().get(jogadorHumano.getListaCarta().size()-1));
-						System.out.println("--------------------------");
-						System.out.println("\nSuas cartas atuais: ");
-						jogadorHumano.printListaCartas();
-						System.out.println("--------------------------");
+						String strmsglistacartas = jogadorHumano.printListaCartas();
+						String strmsg = "Carta comprada: \n" + jogadorHumano.getListaCarta().get(jogadorHumano.getListaCarta().size()-1);
+						JOptionPane.showInputDialog( strmsg + "\nSuas cartas atuais: \n" + strmsglistacartas);
 						descarteJog = descarte.getListaCarta().get(descarte.getListaCarta().size()-1); // se ele compra carta permanece no monte a ultima carta descartada
 					
 				} else if(opcao.equals("B"))  { // Jogar carta
-						System.out.println("Qual carta você deseja jogar? Digite o número entre \'[ ]\' ");
-						int indexCarta = usuario.nextInt();
+						String strmsglistacartas = jogadorHumano.printListaCartas();
+						int indexCarta = Integer.valueOf(JOptionPane.showInputDialog(strdescarte + "Qual carta você deseja jogar? Digite o número entre \'[ ]\' \n" + strmsglistacartas));
 						descarteJog = jogadorHumano.descartarCarta(indexCarta);
 						descarte.getListaCarta().add(descarteJog);
 						
@@ -157,12 +148,12 @@ public class Mesa {
 		}
 		
 		
-		this.ultimoJogador = proxJogador;
+		this.ultimoJogador = proxJogador;    
 		String jogJogada;
 		if(ultimoJogador == 0) {
 			 jogJogada = "Robo";}
 		else {jogJogada = "Humano";}
-		System.out.println("Jogador que fez a jogada: " + jogJogada);
+		JOptionPane.showInputDialog("Jogador que fez a jogada: " + jogJogada + "\n" + "Ultima carta do descarte: " + descarte.getListaCarta().get(descarte.getListaCarta().size()-1));
 	}
 	
 	

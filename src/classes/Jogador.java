@@ -62,12 +62,15 @@ public abstract class Jogador {
 	}
 	
 	// printar a lista de cartas
-	public void printListaCartas() {
+	public String printListaCartas() {
+		String ListaDeCartas = "";
 		for(int i = 0; i < listaCarta.size(); i++) {
 			Carta carta = listaCarta.get(i);
 			System.out.println("[" + i + "] " + ((CartaTipos) carta).toString());
+			ListaDeCartas = ListaDeCartas + "[" + i + "] " + ((CartaTipos) carta).toString() + "\n";
 			
 		}
+		return ListaDeCartas;
 	}
 	
 	// Comprar cartas conforme a quantidade solicitada

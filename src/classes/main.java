@@ -54,7 +54,7 @@ public class main {
 		
 
 		Descarte descarte = new Descarte();
-		descarte.adicionarCarta(c1); // primeira carta do monte do descarte (inicio de jogo sera sempre com Vr 3)
+		descarte.adicionarCarta(c20); // primeira carta do monte do descarte (inicio de jogo sera sempre com Vr 3)
 		
 		JogadorHumano jogadorHumano = new JogadorHumano("Nati", baralho, true);
 		JogadorRobo jogadorRobo = new JogadorRobo("Robo", baralho, false);
