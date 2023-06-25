@@ -7,7 +7,7 @@
 	
 
 # **Tema**
-    Desenvolvimento do jogo Uno em POO
+    Desenvolvimento de um jogo de cartas em POO
 
 # **Curso**
     Engenharia de Controle e Automação
