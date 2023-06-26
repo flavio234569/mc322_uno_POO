@@ -13,5 +13,5 @@
     Engenharia de Controle e Automação
 
 # **Descrição Detalhada**
-    Disponível neste [link][1]
-    [1]: https://docs.google.com/document/d/1zg5ZgGxyJygKdETdzzqDLmFwrRCRNVsx-pvx1mBPNcI/edit?usp=sharing
+    Disponível neste link:
+    https://docs.google.com/document/d/1zg5ZgGxyJygKdETdzzqDLmFwrRCRNVsx-pvx1mBPNcI/edit?usp=sharing
