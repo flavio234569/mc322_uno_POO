@@ -11,3 +11,6 @@
 
 # **Curso**
     Engenharia de Controle e Automação
+
+# **Descrição do Projeto Detalhada:**
+    Disponível neste [link](https://docs.google.com/document/d/1zg5ZgGxyJygKdETdzzqDLmFwrRCRNVsx-pvx1mBPNcI/edit?usp=sharing)
